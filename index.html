@@ -1,0 +1,190 @@
+﻿<!doctype html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue.js - Boucles</title>
+    <link rel="stylesheet" href="css/main.css">
+    <script src="js/vue.global.js"></script>
+</head>
+<body>
+<h1>Vue.js - Les composants</h1>
+<h2>Présentation</h2>
+<p>Ce premier exercice a pour but de vous faire manipuler les composants Vue.js.</p>
+<p>Quelques caractéristiques des
+    <a class="ext" href="https://fr.vuejs.org/guide/essentials/component-basics.html#components-basics">composants</a> :</p>
+<ul>
+    <li>Un composant est une <strong>entité réutilisable</strong> qui regroupe un ensemble
+        de propriétés, de méthodes et de données.</li>
+    <li>Un composant peut être une simple balise HTML ou un ensemble de balises HTML.</li>
+    <li>Un composant peut être utilisé plusieurs fois dans une même page.</li>
+    <li>Un composant peut être composé de plusieurs composants.</li>
+</ul>
+<p>Il existe différentes façons de déclarer un composant. Dans ces exercices, nous utiliserons
+    les <strong>modules JavaScript</strong>.</p>
+<p>Les modules JavaScript permettent de découper le code en plusieurs fichiers pour une meilleure lisibilité et une meilleure maintenance.</p>
+<p>Les modules représentant des composants Vue seront sauvegardés dans le dossier <code>composants/</code>.
+    Le nom du fichier d'un composant doit être écrit en <code>PascalCase</code>.</p>
+<p>Un composant d'exemple <code>GrandTitre</code> est déjà créé dans le fichier <code>composants/GrandTitre.js</code>.
+    L'instruction <code>export default</code> en haut du fichier permet d'exporter
+    le composant Vue sous forme de module.
+</p>
+<p>Le composant <code>GrandTitre</code> est un composant simple qui affiche un titre de niveau 1 en majuscules.
+    Il possède une propriété (props) <code>contenu</code> de type <code>String</code> qui est obligatoire. Cette propriété
+    permet de définir le contenu du titre.</p>
+<p>Les <a class="ext" href="https://fr.vuejs.org/guide/essentials/component-basics.html#passing-props">
+propriétés d'un composant</a> permettent de passer des données à un composant, comme les paramètres d'une fonction.</p>
+<p>Elles sont définies dans l'objet <code>props</code> du composant.</p>
+<pre>
+export default {
+    props: {
+        contenu: {
+            type: String,
+            required: true
+        }
+    },
+    template: `
+    &lt;h1&gt;{{ titre.toUpperCase() }}&lt;/h1&gt;
+    `
+}
+</pre>
+<p>Pour utiliser les modules JavaScript, il faut l'annoncer lors de l'ajout du JavaScript au document HTML :
+    <code>&lt;script type="module"&gt;</code></p>
+</p>
+<p>Pour utiliser un module, il faut l'importer au début du script de cette manière</p>
+<pre>&lt;script type="module"&gt;
+    import GrandTitre from "./composants/GrandTitre.js";
+...</pre>
+<p>Ensuite, il faut l'ajouter à l'application Vue via la propriété <code>components</code></p>
+<pre>&lt;script type="module"&gt;
+    import GrandTitre from "./composants/GrandTitre.js";
+
+    const appli = Vue.createApp({
+        components: {
+            GrandTitre
+        },
+...</pre>
+<p>Et maintenant on peut l'utiliser dans notre application Vue !</p>
+<p>On ne peut l'utilser que dans <code>&#x3C;div id=&#x22;monapp&#x22;&#x3E;</code> ou est monté notre application Vue.</p>
+<p>Et voici comment on l'ajoute :</p>
+<pre>&#x3C;div id=&#x22;monapp&#x22;&#x3E;
+    &#x3C;grand-titre contenu=&#x22;Liste de courses&#x22;&#x3E;&#x3C;/grand-titre&#x3E;
+&#x3C;/div&#x3E;</pre>
+<p>Et oui, on l'utilise comme un simple élément HTML, on doit juste transformer son nom de PascalCase en kebab-case
+<code>GrandTitre => grand-titre</code> et le tour est joué</p>
+<p>La propriété <code>contenu</code> du composant se transforme en attribut et on lui passe simplement le texte
+    <code>contenu=&#x22;Liste de courses&#x22;&#x3E;</code>.</p>
+<p>Les donneées passées à <code>contenu</code> sont statiques, si on veut lui passer des données dynamiques, du JavaScipt,
+    il faut ajouter <code>:</code> devant le nom de la propriété : <br>
+    <code> &#x3C;grand-titre :contenu=&#x22;'Nous sommes le: ' + Date()&#x22;&#x3E;&#x3C;/grand-titre&#x3E;</code>
+</p>
+
+<p>Tout ce travail a déjà été fait pour vous dans le fichier <code>index.html</code>.</p>
+
+<h2>Exercice 1</h2>
+<p>Créez un composant <code>PetitLien</code> qui affiche un lien hypertexte</p>
+<p>Il possède une propriété obligatoire <code>lien</code> de type <code>String</code>,
+    qui permet de définir l'URL du lien,
+    et une propriété optionnelle <code>contenu</code> de type <code>String</code>,
+    qui permet de définir le texte du lien.</p>
+<p>Si la propriété <code>contenu</code> n'est pas définie, le texte du lien doit être l'URL.</p>
+<p>Voici quelques exemples d'utilisation :</p>
+<pre>
+&#x3C;petit-lien lien=&#x22;https://google.ch&#x22; contenu=&#x22;Google&#x22;&#x3E;&#x3C;/petit-lien&#x3E;
+&#x3C;petit-lien lien=&#x22;https://microsoft.ch&#x22;&#x3E;&#x3C;/petit-lien&#x3E;
+ -- Résultats --
+&#x3C;a href=&#x22;https://google.ch&#x22;&#x3E;Google&#x3C;/a&#x3E;
+&#x3C;a href=&#x22;https://microsoft.ch&#x22;&#x3E;https://microsoft.ch&#x3C;/a&#x3E;
+</pre>
+
+<h2>Exercice 2</h2>
+<p>Ajouter le tableau de liens suivant à l'application Vue
+et utiliser la directive <code>v-for</code> pour afficher tous les liens.</p>
+
+<pre>
+[
+    {
+        lien: 'https://google.ch',
+        contenu: 'Google'
+    },
+    {
+        lien: 'https://microsoft.ch'
+    },
+    {
+        lien: 'https://apple.ch',
+        contenu: 'La pomme'
+    },
+    {
+        lien: 'https://facebook.ch',
+        contenu: 'Facebook'
+    },
+    {
+        lien: 'https://twitter.ch',
+        contenu: 'Twitter'
+    },
+    {
+        lien: 'https://instagram.ch',
+        contenu: 'Instagram'
+    },
+    {
+        lien: 'https://linkedin.ch',
+        contenu: 'LinkedIn'
+    },
+    {
+        lien: 'https://youtube.ch',
+        contenu: 'YouTube'
+    },
+    {
+        lien: 'https://amazon.ch',
+        contenu: 'Amazon'
+    },
+    {
+        lien: 'https://ebay.ch',
+        contenu: 'eBay'
+    }
+]
+</pre>
+
+<hr>
+
+<div id="monapp">
+    <grand-titre contenu="Liste de courses"></grand-titre>
+
+    <h1>LISTE DE COURSES</h1>
+    <h2>Exercice 1</h2>
+    <ul>
+        <li><a href="https://google.ch">Google</a></li>
+        <li><a href="https://microsoft.ch">https://microsoft.ch</a></li>
+        <li><a href="https://apple.ch">La pomme</a></li>
+    </ul>
+    <h2>Exercice 2</h2>
+    <ul>
+        <li><a href="https://google.ch">Google</a></li>
+        <li><a href="https://microsoft.ch">https://microsoft.ch</a></li>
+        <li><a href="https://apple.ch">La pomme</a></li>
+        <li><a href="https://facebook.ch">Facebook</a></li>
+        <li><a href="https://twitter.ch">Twitter</a></li>
+        <li><a href="https://instagram.ch">Instagram</a></li>
+        <li><a href="https://linkedin.ch">LinkedIn</a></li>
+        <li><a href="https://youtube.ch">YouTube</a></li>
+        <li><a href="https://amazon.ch">Amazon</a></li>
+        <li><a href="https://ebay.ch">eBay</a></li>
+    </ul>
+</div>
+<!-- Monte l'application sur la div #monapp -->
+<script type="module">
+    import GrandTitre from "./composants/GrandTitre.js";
+
+    const appli = Vue.createApp({
+        components: {
+            GrandTitre,
+        },
+        data() {
+            return {
+                msg: 'Hello Vue !',
+            }
+        }
+    }).mount('#monapp')
+</script>
+</body>
+</html>
