@@ -145,6 +145,43 @@ et utiliser la directive <code>v-for</code> pour afficher tous les liens.</p>
 ]
 </pre>
 
+<h2>Exercice 3</h2>
+<p>Dans le composant <code>PetitLien</code>, créer une méthode <code>confirmer</code> qui affiche
+    <a class="ext" href="https://developer.mozilla.org/en-US/docs/Web/API/Window/confirm">une fenêtre de confirmation</a>
+    avec le texte <code>"T'es sûr de vouloir ouvrir ce lien:  ***lien du site*** "</code> lorsque l'utilisateur clique sur le lien.</p>
+<p>Si l'utilisateur clique sur <code>OK</code>, le lien est ouvert dans un nouvel onglet.</p>
+<p>Si l'utilisateur clique sur <code>Annuler</code>, rien ne se passe.</p>
+<p>Pour ouvrir un lien en JavaScript, on utilise la méthode
+    <a class="ext" href="https://developer.mozilla.org/fr/docs/Web/API/Window/open">window.open(url, target)</a></p>
+<p>Il faudra également penser à stopper l'envoi "naturel" du lien, avec <code>preventDefault()</code>,
+    voici comment on peut ler faire avec les événements Vue</p>
+<ul>
+    <li><a class="ext" href="https://fr.vuejs.org/guide/essentials/event-handling#accessing-event-argument-in-inline-handlers">
+        En récupérant l'objet événement</a></li>
+    <li><a class="ext" href="https://fr.vuejs.org/guide/essentials/event-handling#event-modifiers">
+        Avec les modificateurs d'événement</a> (mon préféré)</li>
+</ul>
+<p>Voici un exemple de composant avec une méthode :</p>
+<pre>
+export default { // Exportation du module
+    props: {
+        prenom: {
+            type: String,
+            required: true
+        },
+    },
+    methods: {
+        coucou() {
+            alert(&quot;Coucou &quot; + this.prenom);
+        }
+    },
+    // Contenu HTML du composant
+    template: `
+    &lt;button @click=&quot;coucou&quot;&gt;Coucou&lt;/button&gt;
+    `
+}
+</pre>
+
 <hr>
 
 <div id="monapp">
@@ -159,17 +196,12 @@ et utiliser la directive <code>v-for</code> pour afficher tous les liens.</p>
     </ul>
     <h2>Exercice 2</h2>
     <ul>
-        <li><a href="https://google.ch">Google</a></li>
-        <li><a href="https://microsoft.ch">https://microsoft.ch</a></li>
-        <li><a href="https://apple.ch">La pomme</a></li>
-        <li><a href="https://facebook.ch">Facebook</a></li>
-        <li><a href="https://twitter.ch">Twitter</a></li>
-        <li><a href="https://instagram.ch">Instagram</a></li>
-        <li><a href="https://linkedin.ch">LinkedIn</a></li>
-        <li><a href="https://youtube.ch">YouTube</a></li>
-        <li><a href="https://amazon.ch">Amazon</a></li>
-        <li><a href="https://ebay.ch">eBay</a></li>
+        <li v-for="lien in liens" :key="lien.lien">
+            <petit-lien :lien="lien.lien" :contenu="lien.contenu"></petit-lien>
+        </li>
     </ul>
+    <h3>Ecercice 3</h3>
+
 </div>
 <!-- Monte l'application sur la div #monapp -->
 <script type="module">
@@ -183,7 +215,47 @@ et utiliser la directive <code>v-for</code> pour afficher tous les liens.</p>
         },
         data() {
             return {
-                msg: 'Hello Vue !',
+                liens:[
+                    {
+                        lien: 'https://google.ch',
+                        contenu: 'Google'
+                    },
+                    {
+                        lien: 'https://microsoft.ch'
+                    },
+                    {
+                        lien: 'https://apple.ch',
+                        contenu: 'La pomme'
+                    },
+                    {
+                        lien: 'https://facebook.ch',
+                        contenu: 'Facebook'
+                    },
+                    {
+                        lien: 'https://twitter.ch',
+                        contenu: 'Twitter'
+                    },
+                    {
+                        lien: 'https://instagram.ch',
+                        contenu: 'Instagram'
+                    },
+                    {
+                        lien: 'https://linkedin.ch',
+                        contenu: 'LinkedIn'
+                    },
+                    {
+                        lien: 'https://youtube.ch',
+                        contenu: 'YouTube'
+                    },
+                    {
+                        lien: 'https://amazon.ch',
+                        contenu: 'Amazon'
+                    },
+                    {
+                        lien: 'https://ebay.ch',
+                        contenu: 'eBay'
+                    }
+                ]
             }
         }
     }).mount('#monapp')
